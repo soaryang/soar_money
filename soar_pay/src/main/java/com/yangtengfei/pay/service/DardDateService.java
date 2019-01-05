@@ -1,11 +1,13 @@
 package com.yangtengfei.pay.service;
 
+import com.alibaba.fastjson.JSON;
 import com.yangtengfei.pay.bean.Card;
 import com.yangtengfei.pay.payconst.BankTypeEnum;
 import com.yangtengfei.pay.payconst.PayTypeEnum;
 import com.yangtengfei.pay.util.CalendarUtil;
 import com.yangtengfei.pay.util.DateUtil;
 import com.yangtengfei.pay.view.CardView;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+@Slf4j
 @Service
 public class DardDateService {
 
@@ -99,6 +102,7 @@ public class DardDateService {
                 cardView.setBank(BankTypeEnum.getName(card.getBankType()));
                 cardView.setPayType(PayTypeEnum.getName(card.getPayType()));
                 int subDay =0;
+                log.info("card:{}",JSON.toJSONString(card));
                 setPayDay(calendar,card,cardView,day);
 
                 //是否紧急
