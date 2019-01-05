@@ -12,7 +12,9 @@
 <body>
     <table cellpadding="0" cellspacing="0" style="border: 1px solid red;width: 100%;">
             <thead>
+                <!--
                 <td style="border: 1px solid red;">id</td>
+                -->
                 <td style="border: 1px solid red;">卡片名称</td>
                 <td style="border: 1px solid red;">卡号</td>
                 <td style="border: 1px solid red;">银行</td>
@@ -38,7 +40,9 @@
                 <#else>
                     <tr>
                 </#if>
+                    <!--
                     <td style="border: 1px solid red;"><a href="/update/${card.id}">${card.id}</a></td>
+                    -->
                     <td style="border: 1px solid red;">${card.cardName}</td>
                     <td style="border: 1px solid red;">${card.cardNo}</td>
                     <td style="border: 1px solid red;">${card.bank}</td>

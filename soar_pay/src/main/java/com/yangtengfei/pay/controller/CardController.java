@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/yangtengfei12345678")
 public class CardController {
 
     @Autowired
