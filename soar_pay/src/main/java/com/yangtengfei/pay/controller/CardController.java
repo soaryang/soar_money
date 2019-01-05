@@ -52,19 +52,25 @@ public class CardController {
 
     @PostMapping(value = "/save")
     //@IpLimit(ip="127.0.0.1")
-    public String saveCard(@ModelAttribute Card card){
+    public ModelAndView saveCard(@ModelAttribute Card card){
         cardService.save(card);
-        return "success";
+        ModelAndView view = new ModelAndView("cardList");
+        List<CardView> cardViewList = cardDateService.findCardViewList();
+        view.addObject("list",cardViewList);
+        return view;
     }
 
     @PostMapping(value = "/update")
     //@IpLimit(ip="127.0.0.1")
-    public String update(@ModelAttribute Card card){
+    public ModelAndView update(@ModelAttribute Card card){
 
         Card temp= cardService.findCardById(card.getId());
         if(temp!=null){
             cardService.save(card);
         }
-        return "success";
+        ModelAndView view = new ModelAndView("cardList");
+        List<CardView> cardViewList = cardDateService.findCardViewList();
+        view.addObject("list",cardViewList);
+        return view;
     }
 }

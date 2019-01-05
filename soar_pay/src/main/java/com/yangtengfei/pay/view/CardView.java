@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 public class CardView {
 
+    private String id;
+
     private String cardName;
 
     //卡号

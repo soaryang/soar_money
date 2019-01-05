@@ -35,6 +35,21 @@
 					break;  
 				}  
 			}
+			var select3 = document.getElementById("isfixDate");  
+			for (var i = 0; i < select3.options.length; i++){  
+				if (select3.options[i].value == ${card.isfixDate}){  
+					select3.options[i].selected = true;  
+					break;  
+				}  
+			}
+			
+			var select4 = document.getElementById("isOpenCard");  
+			for (var i = 0; i < select4.options.length; i++){  
+				if (select4.options[i].value == ${card.isOpenCard}){  
+					select4.options[i].selected = true;  
+					break;  
+				}  
+			}
         }
         //默认提交状态为false
         var commitStatus = false;
@@ -47,6 +62,14 @@
                 return false;
             }
         }
+		function doChange(){
+			if(document.getElementById("isfixDate").value==1){
+				document.getElementById("payDate").value = "";
+				document.getElementById("payDate").disabled=true; 
+			}else{
+				document.getElementById("payDate").disabled=false; 
+			}
+		}
     </script>
 </head>
 <body onload="init()">
@@ -85,18 +108,25 @@
 
     账单日期：<input type="text" name="accountDate" value="${card.accountDate !""}"><br/>
     是不是固定还款日期：
-	<select name="isfixDate">
+	<select name="isfixDate" id="isfixDate"  onchange="doChange()">
         <option value="0">是</option>
         <option value="1">否</option>
     </select>
 	<br/>
     是否开卡：
-    <select name="isOpenCard">
+    <select name="isOpenCard" id="isOpenCard">
         <option value="0">否</option>
         <option value="1">是</option>
     </select>
     <br/>
-    还款日期：<input type="text" name="payDate" value="${card.payDate !""}"><br/>
+    还款日期： 
+		<#if card.isfixDate==1>
+			<input type="text" name="payDate" id="payDate" value="${card.payDate !""}" disabled="disabled"/>
+		<#else>
+			<input type="text" name="payDate" id="payDate" value="${card.payDate !""}"/>
+		</#if>
+	
+	<br/>
     <input type="submit" value="提交" id="submit">
 
     <input type="hidden" name="id" value="${card.id}"/>

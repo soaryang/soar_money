@@ -37,10 +37,10 @@ public class Card {
     private int payType;
 
     @Field
-    private Integer payDate;
+    private int payDate;
 
     @Field
-    private Integer accountDate;
+    private int accountDate;
 
     @Field
     private Date createDate = new Date();
