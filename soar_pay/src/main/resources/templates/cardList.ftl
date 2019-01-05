@@ -3,6 +3,11 @@
 <head>
     <title>FreeMarker Spring MVC 之 表单提交</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+        td{
+            height: 30px;
+        }
+    </style>
 </head>
 <body>
     <table cellpadding="0" cellspacing="0" style="border: 1px solid red;width: 80%;">
