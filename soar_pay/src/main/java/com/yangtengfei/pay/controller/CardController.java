@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,12 +80,18 @@ public class CardController {
 
     private List<CardView> findCardViewList(List<CardView> cardViewList){
         //已经开卡的
-        List<CardView> isOpenCardViewList = cardViewList.stream().filter(item -> item.getIsOpenCard()==1).collect(Collectors.toList());
+        List<CardView> newCardViewList = new ArrayList<>();
+
+        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "房贷".equals(item.getPayType())).collect(Collectors.toList()));
+
+        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "蚂蚁花呗".equals(item.getPayType())).collect(Collectors.toList()));
+
+        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "信用卡".equals(item.getPayType())).collect(Collectors.toList()));
 
         List<CardView> isNotOpenCardViewList = cardViewList.stream().filter(item -> item.getIsOpenCard()==0).collect(Collectors.toList());
 
-        isOpenCardViewList.addAll(isNotOpenCardViewList);
+        newCardViewList.addAll(isNotOpenCardViewList);
 
-        return isOpenCardViewList;
+        return newCardViewList;
     }
 }
