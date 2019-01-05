@@ -48,6 +48,6 @@ public class CardView {
     private boolean isgetMoney;
 
     private int isfixDate;
-    private int openCard;
+    private int isOpenCard;
 
 }

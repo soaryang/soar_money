@@ -25,6 +25,7 @@
                 <td style="border: 1px solid red;">下个账单日期</td>
                 <td style="border: 1px solid red;">距离账单日</td>
                 <td style="border: 1px solid red;">是否能出钱</td>
+                <td style="border: 1px solid red;">是否开卡</td>
             </thead>
             <#list list as card>
                 <#if card.isemergent>
@@ -73,6 +74,13 @@
                     可以
                 <#else>
                  </#if>
+                </td>
+                <td style="border: 1px solid red;">
+                    <#if card.isOpenCard==1>
+                        已开
+                    <#else>
+                        未开
+                    </#if>
                 </td>
                 </tr>
             </#list>
