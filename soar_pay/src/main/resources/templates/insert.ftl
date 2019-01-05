@@ -3,7 +3,20 @@
 <head>
     <title>FreeMarker Spring MVC 之 表单提交</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+    <style>
+        input {
+            width:300px;
+            height:40px;
+            font-weight:bold;
+            font-size:15pt;
+        }
+        select {
+            width:300px;
+            height:40px;
+            font-weight:bold;
+            font-size:15pt;
+        }
+    </style>
     <script type="text/javascript">
         //默认提交状态为false
         var commitStatus = false;
