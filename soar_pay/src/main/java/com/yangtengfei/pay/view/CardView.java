@@ -47,7 +47,7 @@ public class CardView {
 
     private boolean isgetMoney;
 
-    @Field
     private int isfixDate;
+    private int openCard;
 
 }

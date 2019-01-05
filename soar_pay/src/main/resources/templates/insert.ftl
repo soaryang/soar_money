@@ -66,10 +66,18 @@
             </select><br/>
 
     账单日期：<input type="text" name="accountDate"><br/>
+    是不是固定还款日期：
     <select name="isfixDate">
         <option value="0">是</option>
         <option value="1">否</option>
     </select>
+    <br/>
+    是否开卡：
+    <select name="isOpenCard">
+        <option value="0">否</option>
+        <option value="1">是</option>
+    </select>
+    <br/>
     还款日期：<input type="text" name="payDate"><br/>
     <input type="submit" value="提交" id="submit">
 </form>

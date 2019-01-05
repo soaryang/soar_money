@@ -31,6 +31,9 @@ public class Card {
     private int isfixDate;
 
     @Field
+    private int openCard;
+
+    @Field
     private int payType;
 
     @Field

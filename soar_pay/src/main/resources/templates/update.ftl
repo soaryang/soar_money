@@ -90,6 +90,12 @@
         <option value="1">否</option>
     </select>
 	<br/>
+    是否开卡：
+    <select name="isOpenCard">
+        <option value="0">否</option>
+        <option value="1">是</option>
+    </select>
+    <br/>
     还款日期：<input type="text" name="payDate" value="${card.payDate !""}"><br/>
     <input type="submit" value="提交" id="submit">
 
