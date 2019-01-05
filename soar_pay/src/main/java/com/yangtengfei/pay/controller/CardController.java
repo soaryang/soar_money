@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CardController {
@@ -39,7 +40,9 @@ public class CardController {
     public ModelAndView list(HttpServletRequest request, HttpServletResponse response){
         ModelAndView view = new ModelAndView("cardList");
         List<CardView> cardViewList = cardDateService.findCardViewList();
-        view.addObject("list",cardViewList);
+
+
+        view.addObject("list",findCardViewList(cardViewList));
         return view;
     }
 
@@ -56,7 +59,7 @@ public class CardController {
         cardService.save(card);
         ModelAndView view = new ModelAndView("cardList");
         List<CardView> cardViewList = cardDateService.findCardViewList();
-        view.addObject("list",cardViewList);
+        view.addObject("list",findCardViewList(cardViewList));
         return view;
     }
 
@@ -70,7 +73,18 @@ public class CardController {
         }
         ModelAndView view = new ModelAndView("cardList");
         List<CardView> cardViewList = cardDateService.findCardViewList();
-        view.addObject("list",cardViewList);
+        view.addObject("list",findCardViewList(cardViewList));
         return view;
+    }
+
+    private List<CardView> findCardViewList(List<CardView> cardViewList){
+        //已经开卡的
+        List<CardView> isOpenCardViewList = cardViewList.stream().filter(item -> item.getIsOpenCard()==1).collect(Collectors.toList());
+
+        List<CardView> isNotOpenCardViewList = cardViewList.stream().filter(item -> item.getIsOpenCard()==0).collect(Collectors.toList());
+
+        isOpenCardViewList.addAll(isNotOpenCardViewList);
+
+        return isOpenCardViewList;
     }
 }
