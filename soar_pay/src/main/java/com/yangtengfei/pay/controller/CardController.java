@@ -1,6 +1,7 @@
 package com.yangtengfei.pay.controller;
 
 import com.yangtengfei.pay.bean.Card;
+import com.yangtengfei.pay.limit.ip.IpLimit;
 import com.yangtengfei.pay.service.CardService;
 import com.yangtengfei.pay.service.DardDateService;
 import com.yangtengfei.pay.view.CardView;
@@ -50,13 +51,13 @@ public class CardController {
 
     @ResponseBody
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    //@IpLimit(ip="127.0.0.1")
+    @IpLimit(ip="127.0.0.1")
     public String findById(HttpServletRequest request, HttpServletResponse response){
         return "123123";
     }
 
     @PostMapping(value = "/save")
-    //@IpLimit(ip="127.0.0.1")
+    @IpLimit(ip="127.0.0.1")
     public ModelAndView saveCard(@ModelAttribute Card card){
         cardService.save(card);
         ModelAndView view = new ModelAndView("cardList");
@@ -66,7 +67,7 @@ public class CardController {
     }
 
     @PostMapping(value = "/update")
-    //@IpLimit(ip="127.0.0.1")
+    @IpLimit(ip="127.0.0.1")
     public ModelAndView update(@ModelAttribute Card card){
 
         Card temp= cardService.findCardById(card.getId());
