@@ -6,6 +6,7 @@ import com.yangtengfei.pay.service.CardService;
 import com.yangtengfei.pay.service.DardDateService;
 import com.yangtengfei.pay.service.MailService;
 import com.yangtengfei.pay.util.DateUtil;
+import com.yangtengfei.pay.view.CardView;
 import com.yangtengfei.pay.view.PayInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,19 @@ public class NoticeScheduler {
     @Autowired
     private DardDateService cardDateService;
 
-    //@Scheduled(cron="0/30 * * * * ?")
-    public void createHotQuestionCache() {
-
-        mailService.sendSimpleMail(cardDateService.findCardViewList());
+    @Scheduled(cron="0 0 9,15 * * ?")
+    public void excutePayScheduler() {
+        try{
+            List<CardView> cardViewList = cardDateService.findCardViewList();
+            for(CardView cardView:cardViewList){
+                if(cardView.isIsemergent()){
+                    mailService.sendSimpleMail(cardView);
+                }
+            }
+        }catch (Exception e){
+            log.error("excutePayScheduler error",e);
+        }
+        //mailService.sendSimpleMail(cardDateService.findCardViewList());
        /* Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         List<Card> cards = cardService.findAll();

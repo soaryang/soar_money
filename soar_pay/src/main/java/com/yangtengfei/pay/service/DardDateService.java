@@ -55,7 +55,7 @@ public class DardDateService {
             cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
         }
         //距离还款时间
-        cardView.setSubPayDay(subDay);
+        cardView.setSubPayDay(subDay-1);
     }
 
     private void isNotFixDate(Card card,CardView cardView,Calendar calendar,int day){
@@ -70,7 +70,7 @@ public class DardDateService {
 
             cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
             subDay =(int)((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
-            cardView.setSubPayDay(subDay);
+            cardView.setSubPayDay(subDay-1);
 
             CalendarUtil.addDay(calendarTemp,-1);
             cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
@@ -83,7 +83,7 @@ public class DardDateService {
             cardView.setPutMonyDay(DateUtil.calendarToString(calendarAccount,DateUtil.YYYY_MM_DD));
 
             subDay =(int)((calendarAccount.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
-            cardView.setSubPayDay(subDay);
+            cardView.setSubPayDay(subDay-1);
 
             CalendarUtil.addDay(calendarTemp,-1);
             cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
@@ -133,7 +133,7 @@ public class DardDateService {
                     cardView.setSubAccountDay(subAccountDay);
                 }
 
-                if(subDay<=3 & subDay>=1){
+                if(subDay<=3 & subDay>=0){
                     cardView.setIsemergent(true);
                     //paycardViewList.add(cardView);
                 }else{

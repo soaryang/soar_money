@@ -27,18 +27,29 @@ public class MailService {
     @Value("${spring.mail.username}")
     private String from;
 
+
+    @Value("${mail.to}")
+    private String mailto;
+
+
+
     @Autowired
     private FreemarkUtilService freemarkUtilService;
 
-    public void sendSimpleMail(List<CardView> cardViewList){
+    public void sendSimpleMail(CardView cardView){
         try {
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-            helper.setFrom(from);
-            helper.setTo("759620299@qq.com");//发送给谁
-            helper.setSubject("【" +"还钱" + "】");//邮件标题
-            helper.setText(freemarkUtilService.getPayCotent(cardViewList), true);
-            javaMailSender.send(mimeMessage);
+
+            String[] mailList = mailto.split(",");
+            for(int i=0; i<mailList.length; i++){
+                Thread.sleep(5000);
+                MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+                helper.setFrom(from);
+                helper.setTo(mailList[i]);//发送给谁
+                helper.setSubject("【"+cardView.getBank()+"-"+cardView.getPayType() +"还钱" + "】");//邮件标题
+                helper.setText(freemarkUtilService.getPayCotent(cardView), true);
+                javaMailSender.send(mimeMessage);
+            }
         } catch (Exception e) {
             log.error("邮件发送失败", e);
         }

@@ -18,7 +18,7 @@ public class FreemarkUtilService {
 
 
     //邮件的发送者
-    @Value("cardList.ftl")
+    @Value("pay.ftl")
     private String payFreemarker;
 
     @Autowired
@@ -30,7 +30,7 @@ public class FreemarkUtilService {
         try {
             Template template = configurer.getConfiguration().getTemplate(payFreemarker);
             Map<String, Object> model = new HashMap<>();
-            model.put("list", object);
+            model.put("card", object);
             text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         } catch (Exception e) {
             e.printStackTrace();
