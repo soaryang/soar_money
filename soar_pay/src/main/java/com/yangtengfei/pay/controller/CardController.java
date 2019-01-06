@@ -4,7 +4,9 @@ import com.yangtengfei.pay.bean.Card;
 import com.yangtengfei.pay.limit.ip.IpLimit;
 import com.yangtengfei.pay.service.CardService;
 import com.yangtengfei.pay.service.DardDateService;
+import com.yangtengfei.pay.service.MailService;
 import com.yangtengfei.pay.view.CardView;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 @RequestMapping("/yangtengfei12345678")
 public class CardController {
@@ -26,9 +29,29 @@ public class CardController {
     @Autowired
     private DardDateService cardDateService;
 
+    @Autowired
+    private MailService mailService;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpServletResponse response){
         return "insert";
+    }
+
+
+    @RequestMapping(value = "/mail", method = RequestMethod.GET)
+    public String mail(HttpServletRequest request, HttpServletResponse response){
+        try{
+            List<CardView> cardViewList = cardDateService.findCardViewList();
+            for(CardView cardView:cardViewList){
+                if(cardView.isIsemergent()){
+                    mailService.sendSimpleMail(cardView);
+                }
+            }
+        }catch (Exception e){
+            log.error("excutePayScheduler error",e);
+        }
+
+        return "success";
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
