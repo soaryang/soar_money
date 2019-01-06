@@ -34,7 +34,7 @@ public class DardDateService {
 
     private void isFixDate(Calendar calendar,Card card , CardView cardView, int day){
         int subDay = 0;
-        log.info("card:{}",JSON.toJSONString(card));
+        //log.info("card:{}",JSON.toJSONString(card));
         if(card.getPayDate()<= day){
             Calendar calendarTemp  = Calendar.getInstance();
             CalendarUtil.addMonth(calendarTemp,1);

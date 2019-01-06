@@ -42,6 +42,7 @@ public class MailService {
             String[] mailList = mailto.split(",");
             for(int i=0; i<mailList.length; i++){
                 Thread.sleep(5000);
+                log.info("【"+cardView.getBank()+"-"+cardView.getPayType() +"还钱" + "】"+"to"+mailList[i]);
                 MimeMessage mimeMessage = javaMailSender.createMimeMessage();
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
                 helper.setFrom(from);
