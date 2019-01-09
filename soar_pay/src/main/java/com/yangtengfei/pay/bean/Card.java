@@ -25,22 +25,22 @@ public class Card {
     private String cardNo;
 
     @Field
-    private int bankType;
+    private Integer bankType = 0;
 
     @Field
-    private int isfixDate;
+    private Integer isfixDate = 0;
 
     @Field
-    private int isOpenCard;
+    private Integer isOpenCard = 0;
 
     @Field
-    private int payType;
+    private Integer payType = 0;
 
     @Field
-    private int payDate;
+    private Integer payDate = 0;
 
     @Field
-    private int accountDate;
+    private Integer accountDate = 0;
 
     @Field
     private Date createDate = new Date();
@@ -49,5 +49,5 @@ public class Card {
     private Date updateDate = new Date();
 
     @Field
-    private int deleteFlg;
+    private int deleteFlg = 0;
 }
