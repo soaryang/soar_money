@@ -56,7 +56,7 @@ public class CardController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    //@IpLimit(ip="127.0.0.1")
+    @IpLimit(ip="127.0.0.1")
     public ModelAndView update(@PathVariable String id){
         ModelAndView view = new ModelAndView("update");
         Card card = cardService.findCardById(id);
@@ -76,13 +76,13 @@ public class CardController {
 
     @ResponseBody
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    //@IpLimit(ip="127.0.0.1")
+    @IpLimit(ip="127.0.0.1")
     public String findById(HttpServletRequest request, HttpServletResponse response){
         return "123123";
     }
 
     @PostMapping(value = "/save")
-    //@IpLimit(ip="127.0.0.1")
+    @IpLimit(ip="127.0.0.1")
     public ModelAndView saveCard(@ModelAttribute Card card){
         log.info("card:{}", JSON.toJSONString(card));
         cardService.save(card);
@@ -93,7 +93,7 @@ public class CardController {
     }
 
     @PostMapping(value = "/update")
-    //@IpLimit(ip="127.0.0.1")
+    @IpLimit(ip="127.0.0.1")
     public ModelAndView update(@ModelAttribute Card card){
 
         Card temp= cardService.findCardById(card.getId());
