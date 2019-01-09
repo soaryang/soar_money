@@ -1,5 +1,6 @@
 package com.yangtengfei.pay.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yangtengfei.pay.bean.Card;
 import com.yangtengfei.pay.limit.ip.IpLimit;
 import com.yangtengfei.pay.service.CardService;
@@ -83,6 +84,7 @@ public class CardController {
     @PostMapping(value = "/save")
     //@IpLimit(ip="127.0.0.1")
     public ModelAndView saveCard(@ModelAttribute Card card){
+        log.info("card:{}", JSON.toJSONString(card));
         cardService.save(card);
         ModelAndView view = new ModelAndView("cardList");
         List<CardView> cardViewList = cardDateService.findCardViewList();
