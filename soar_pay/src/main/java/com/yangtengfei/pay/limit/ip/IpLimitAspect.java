@@ -27,7 +27,7 @@ public class IpLimitAspect {
 
         String requestId = attributes.getRequest().getRemoteAddr();
         if(!requestId.equals(limit.ip())){
-            //throw new IpLimitException();
+            throw new IpLimitException();
         }
 
         // 记录下请求内容
