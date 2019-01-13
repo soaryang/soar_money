@@ -21,7 +21,8 @@ public enum BankTypeEnum {
     ZHIFUBAO("支付宝",17),
     MINGSHENG("民生银行",18),
     HUAQI("花旗银行",19),
-    YOUZHENGCHUXUYINHANG("中国邮政储蓄银行",20);
+    YOUZHENGCHUXUYINHANG("中国邮政储蓄银行",20),
+    JINGDONG("京东",21);
     // 成员变量
     private String name;
     private int index;
