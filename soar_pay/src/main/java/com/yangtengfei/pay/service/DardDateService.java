@@ -56,10 +56,11 @@ public class DardDateService {
         }
         //距离还款时间
         cardView.setSubPayDay(subDay-1);
+        log.info("cardView:{}",JSON.toJSONString(cardView));
     }
 
     private void isNotFixDate(Card card,CardView cardView,Calendar calendar,int day){
-
+        log.info("cardView:{}",JSON.toJSONString(cardView));
         Calendar calendarTemp  = Calendar.getInstance();
         CalendarUtil.setSpecialDay(calendarTemp,card.getAccountDate());
         CalendarUtil.addDay(calendarTemp,20);
@@ -110,7 +111,7 @@ public class DardDateService {
                 subDay = cardView.getSubPayDay();
 
                 //是否能取现
-                if(card.getPayType() == PayTypeEnum.CREDIT_CARD.getIndex()){
+                if(card.getPayType() == PayTypeEnum.CREDIT_CARD.getIndex() || card.getPayType() == PayTypeEnum.JINGDONGBAITIAO.getIndex()){
                     int subAccountDay = 0;
                     if(card.getAccountDate()< day){
                         Calendar calendarTemp  = Calendar.getInstance();
@@ -127,8 +128,11 @@ public class DardDateService {
                         CalendarUtil.setSpecialDay(calendarTemp,card.getAccountDate());
                         cardView.setAccountDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
                     }
-                    if(subAccountDay>15){
-                        cardView.setIsgetMoney(true);
+
+                    if(card.getPayType() == PayTypeEnum.CREDIT_CARD.getIndex()) {
+                        if (subAccountDay > 15) {
+                            cardView.setIsgetMoney(true);
+                        }
                     }
                     cardView.setSubAccountDay(subAccountDay);
                 }
