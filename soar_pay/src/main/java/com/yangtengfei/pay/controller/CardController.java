@@ -114,7 +114,7 @@ public class CardController {
 
         newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "蚂蚁花呗".equals(item.getPayType())).collect(Collectors.toList()));
 
-        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "京东白条".equals(item.getPayType())).collect(Collectors.toList()));
+        //newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "京东白条".equals(item.getPayType())).collect(Collectors.toList()));
 
         newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "信用卡".equals(item.getPayType())).collect(Collectors.toList()));
 
