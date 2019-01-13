@@ -33,7 +33,7 @@
 </head>
 <body>
 <div>用户登录表单</div>
-<form name="frmLogin"  onsubmit="return dosubmit()" action="/save" method="post">
+<form name="frmLogin"  onsubmit="return dosubmit()" action="/yangtengfei12345678/save" method="post">
     卡片名称: <input type="text" name="cardName"><br/>
     卡号: <input type="text" name="cardNo"><br/>
     银行类型  <select name="bankType">
@@ -58,11 +58,13 @@
     <option value="18">民生银行</option>
     <option value="19">花旗银行</option>
     <option value="20">中国邮政储蓄银行</option>
+    <option value="21">京东</option>
 </select><br/>
     还款类型 <select name="payType">
                 <option value="0">房贷</option>
                 <option value="1">信用卡</option>
                 <option value="2">蚂蚁花呗</option>
+                <option value="3">京东白条</option>
             </select><br/>
 
     账单日期：<input type="text" name="accountDate"><br/>
