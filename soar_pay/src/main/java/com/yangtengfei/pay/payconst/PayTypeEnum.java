@@ -4,7 +4,7 @@ public enum PayTypeEnum {
     CREDIT_CARD("信用卡", 1),
     ZHIFUBAO("蚂蚁花呗", 2),
     HOUSE_PAY("房贷", 0),
-    JINGDONG("京东", 3),;
+    JINGDONGBAITIAO("京东白条", 3);
     // 成员变量
     private String name;
     private int index;
