@@ -130,7 +130,7 @@ public class DardDateService {
                     }
 
                     if(card.getPayType() == PayTypeEnum.CREDIT_CARD.getIndex()) {
-                        if (subAccountDay > 15) {
+                        if (subAccountDay > 18) {
                             cardView.setIsgetMoney(true);
                         }
                     }
