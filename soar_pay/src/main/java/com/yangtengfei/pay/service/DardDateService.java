@@ -74,15 +74,15 @@ public class DardDateService {
         int subDay = 0;
         if(calendarTemp.getTime().after(calendar.getTime())){
 
-            //还款日
-            CalendarUtil.addDay(calendarTemp,-1);
-            cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
-            subDay =(int)((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
-            //距离还款日
-            cardView.setSubPayDay(subDay-1);
 
+            //存钱日期
+            CalendarUtil.addDay(calendarTemp,-1);
             cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
 
+
+            cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
+            subDay =(int)((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
+            cardView.setSubPayDay(subDay);
         }else{
             Calendar calendarAccount  = Calendar.getInstance();
             CalendarUtil.addMonth(calendarAccount,1);
