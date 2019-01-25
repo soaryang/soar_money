@@ -72,7 +72,7 @@ public class DardDateService {
             cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
             subDay =(int)((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
             cardView.setSubPayDay(subDay-1);
-
+            log.info("cardName:{},after:{}",card.getCardName(),calendarTemp.getTime());
             CalendarUtil.addDay(calendarTemp,-1);
             cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
 
@@ -85,7 +85,7 @@ public class DardDateService {
 
             subDay =(int)((calendarAccount.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
             cardView.setSubPayDay(subDay-1);
-
+            log.info("cardName:{},before:{}",card.getCardName(),calendarTemp.getTime());
             CalendarUtil.addDay(calendarTemp,-1);
             cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
         }
@@ -130,7 +130,7 @@ public class DardDateService {
                     }
 
                     if(card.getPayType() == PayTypeEnum.CREDIT_CARD.getIndex()) {
-                        if (subAccountDay > 18) {
+                        if (subAccountDay > 20) {
                             cardView.setIsgetMoney(true);
                         }
                     }
