@@ -67,13 +67,14 @@ public class DardDateService {
         //cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
         int payDate = calendarTemp.get(Calendar.DAY_OF_MONTH);
         int subDay = 0;
+
+        log.info("cardName:{},after:{}",card.getCardName(),calendarTemp.getTime());
+        log.info("calendar:{},cardName:{}",calendar.getTime(),card.getCardName());
         if(calendarTemp.getTime().after(calendar.getTime())){
 
             cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
             subDay =(int)((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
             cardView.setSubPayDay(subDay-1);
-            log.info("cardName:{},after:{}",card.getCardName(),calendarTemp.getTime());
-            log.info("calendar:{},cardName:{}",calendar.getTime(),card.getCardName());
             CalendarUtil.addDay(calendarTemp,-1);
             cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
 
