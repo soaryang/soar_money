@@ -67,6 +67,8 @@ public class DardDateService {
         CalendarUtil.setSpecialDay(calendarTemp,card.getAccountDate());
         //获取当前账单日
         int accountDay = calendarTemp.get(Calendar.DAY_OF_MONTH);
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
         if(card.getCardName().contains("浦东")){
             log.info("accountDay:{}",accountDay);
         }
@@ -74,7 +76,8 @@ public class DardDateService {
         CalendarUtil.addDay(calendarTemp,20);
 
         int subDay = 0;
-        if(calendarTemp.getTime().after(calendar.getTime())){
+        //if(calendarTemp.getTime().after(calendar.getTime())){
+        if(accountDay>currentDay){
             log.info("账单日在当前时间之后");
             //获取上个账单日。来计算本月的还款日
             Calendar currentCalendar  = Calendar.getInstance();
