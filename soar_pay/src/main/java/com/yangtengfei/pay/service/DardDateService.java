@@ -34,11 +34,7 @@ public class DardDateService {
 
     private void isFixDate(Calendar calendar,Card card , CardView cardView, int day){
         int subDay = 0;
-        //log.info("card:{}",JSON.toJSONString(card));4
-
-        if(card.getCardName().contains("浦东")){
-            log.info("card:{}",JSON.toJSONString(card));
-        }
+        //log.info("card:{}",JSON.toJSONString(card));
         //还款日
         if(card.getPayDate()<= day){
             //当前日期
@@ -66,12 +62,15 @@ public class DardDateService {
     }
 
     private void isNotFixDate(Card card,CardView cardView,Calendar calendar,int day){
-        log.info("cardView:{}",JSON.toJSONString(cardView));
+        //log.info("cardView:{}",JSON.toJSONString(cardView));
         Calendar calendarTemp  = Calendar.getInstance();
         CalendarUtil.setSpecialDay(calendarTemp,card.getAccountDate());
 
-        log.info("cardName:{},after:{}",card.getCardName(),calendarTemp.getTime());
-        log.info("calendar:{},cardName:{}",calendar.getTime(),card.getCardName());
+        //log.info("cardName:{},after:{}",card.getCardName(),calendarTemp.getTime());
+        //log.info("calendar:{},cardName:{}",calendar.getTime(),card.getCardName());
+        if(card.getCardName().contains("浦东")){
+            log.info("card:{}",JSON.toJSONString(card));
+        }
 
         //账单日
         CalendarUtil.addDay(calendarTemp,20);
