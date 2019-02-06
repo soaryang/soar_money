@@ -62,32 +62,36 @@ public class DardDateService {
     }
 
     private void isNotFixDate(Card card,CardView cardView,Calendar calendar,int day){
-        //log.info("cardView:{}",JSON.toJSONString(cardView));
         Calendar calendarTemp  = Calendar.getInstance();
+        //设置账单日
         CalendarUtil.setSpecialDay(calendarTemp,card.getAccountDate());
-
-        //log.info("cardName:{},after:{}",card.getCardName(),calendarTemp.getTime());
-        //log.info("calendar:{},cardName:{}",calendar.getTime(),card.getCardName());
+        //获取当前账单日
+        int accountDay = calendarTemp.get(Calendar.DAY_OF_MONTH);
         if(card.getCardName().contains("浦东")){
-            log.info("card:{}",JSON.toJSONString(card));
+            log.info("accountDay:{}",accountDay);
         }
-
-        //账单日
+        //设置还款日
         CalendarUtil.addDay(calendarTemp,20);
-        //cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
-        int payDate = calendarTemp.get(Calendar.DAY_OF_MONTH);
+
         int subDay = 0;
         if(calendarTemp.getTime().after(calendar.getTime())){
+            log.info("账单日在当前时间之后");
+            //获取上个账单日。来计算本月的还款日
+            Calendar currentCalendar  = Calendar.getInstance();
 
+            CalendarUtil.addMonth(currentCalendar,-1);
+            CalendarUtil.setSpecialDay(currentCalendar,card.getAccountDate());
 
-            cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
+            CalendarUtil.addDay(currentCalendar,20);
+            cardView.setPayDay(DateUtil.calendarToString(currentCalendar,DateUtil.YYYY_MM_DD));
             //存钱日期
-            CalendarUtil.addDay(calendarTemp,-1);
-            cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
+            CalendarUtil.addDay(currentCalendar,-1);
+            cardView.setPutMonyDay(DateUtil.calendarToString(currentCalendar,DateUtil.YYYY_MM_DD));
 
-            subDay =(int)((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24));
-            cardView.setSubPayDay(subDay);
+            subDay =(int)((currentCalendar.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24));
+            cardView.setSubPayDay(Math.abs(subDay));
         }else{
+            log.info("账单日在当前时间之前");
             Calendar calendarAccount  = Calendar.getInstance();
             CalendarUtil.addMonth(calendarAccount,1);
             CalendarUtil.setSpecialDay(calendarAccount,card.getAccountDate());
