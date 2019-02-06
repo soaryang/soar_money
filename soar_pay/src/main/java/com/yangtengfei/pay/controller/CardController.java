@@ -44,7 +44,7 @@ public class CardController {
         try{
             List<CardView> cardViewList = cardDateService.findCardViewList();
             for(CardView cardView:cardViewList){
-                if(cardView.isIsemergent()){
+                if(cardView.isIsemergent() && cardView.getIsOpenCard()==1){
                     mailService.sendSimpleMail(cardView);
                 }
             }
