@@ -36,7 +36,7 @@ public class DardDateService {
         int subDay = 0;
         //log.info("card:{}",JSON.toJSONString(card));4
 
-        if(card.getCardName().contains("浦发")){
+        if(card.getCardName().contains("浦东")){
             log.info("card:{}",JSON.toJSONString(card));
         }
         //还款日
