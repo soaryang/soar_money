@@ -110,13 +110,18 @@ public class CardController {
         //已经开卡的
         List<CardView> newCardViewList = new ArrayList<>();
 
-        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "房贷".equals(item.getPayType())).collect(Collectors.toList()));
+        //newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "房贷".equals(item.getPayType())).collect(Collectors.toList()));
 
-        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "蚂蚁花呗".equals(item.getPayType())).collect(Collectors.toList()));
+        //newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "蚂蚁花呗".equals(item.getPayType())).collect(Collectors.toList()));
 
-        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "京东白条".equals(item.getPayType())).collect(Collectors.toList()));
+        //newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "京东白条".equals(item.getPayType())).collect(Collectors.toList()));
 
-        newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "信用卡".equals(item.getPayType())).collect(Collectors.toList()));
+        //newCardViewList.addAll(cardViewList.stream().filter(item -> item.getIsOpenCard()==1).filter(item -> "信用卡".equals(item.getPayType())).collect(Collectors.toList()));
+
+        newCardViewList.addAll(cardViewList.stream().filter(item -> item.isIsemergent()==true).collect(Collectors.toList()));
+
+        newCardViewList.addAll(cardViewList.stream().filter(item -> item.isIsemergent()==false).collect(Collectors.toList()));
+
 
         List<CardView> isNotOpenCardViewList = cardViewList.stream().filter(item -> item.getIsOpenCard()==0).collect(Collectors.toList());
 
