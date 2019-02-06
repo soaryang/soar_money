@@ -34,8 +34,14 @@ public class DardDateService {
 
     private void isFixDate(Calendar calendar,Card card , CardView cardView, int day){
         int subDay = 0;
-        //log.info("card:{}",JSON.toJSONString(card));
+        //log.info("card:{}",JSON.toJSONString(card));4
+
+        if(card.getCardName().contains("浦发")){
+            log.info("card:{}",JSON.toJSONString(card));
+        }
+        //还款日
         if(card.getPayDate()<= day){
+            //当前日期
             Calendar calendarTemp  = Calendar.getInstance();
             CalendarUtil.addMonth(calendarTemp,1);
             CalendarUtil.setSpecialDay(calendarTemp,card.getPayDate());
