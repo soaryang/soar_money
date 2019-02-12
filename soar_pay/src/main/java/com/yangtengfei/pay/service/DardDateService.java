@@ -92,20 +92,37 @@ public class DardDateService {
             cardView.setPutMonyDay(DateUtil.calendarToString(currentCalendar,DateUtil.YYYY_MM_DD));
 
             subDay =(int)((currentCalendar.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24));
-            cardView.setSubPayDay(Math.abs(subDay));
+            cardView.setSubPayDay(subDay);
         }else{
             log.info("账单日在当前时间之前");
             Calendar calendarAccount  = Calendar.getInstance();
-            CalendarUtil.addMonth(calendarAccount,1);
+            //判断账单日+ 指定的20天是否大于最后一天
+	        CalendarUtil.setSpecialDay(calendarAccount,card.getAccountDate());
+	        CalendarUtil.addDay(calendarAccount,20);
+
+	        //还款日期
+	        cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
+
+	        //存钱日期
+	        CalendarUtil.addDay(calendarAccount,-1);
+	        cardView.setPutMonyDay(DateUtil.calendarToString(calendarAccount,DateUtil.YYYY_MM_DD));
+
+	        subDay =(int)((calendarAccount.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
+	        cardView.setSubPayDay(subDay);
+
+
+
+
+
+            /*CalendarUtil.addMonth(calendarAccount,1);
             CalendarUtil.setSpecialDay(calendarAccount,card.getAccountDate());
             CalendarUtil.addDay(calendarAccount,20);
             cardView.setPutMonyDay(DateUtil.calendarToString(calendarAccount,DateUtil.YYYY_MM_DD));
-
             subDay =(int)((calendarAccount.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
             cardView.setSubPayDay(subDay-1);
             log.info("cardName:{},before:{}",card.getCardName(),calendarTemp.getTime());
             CalendarUtil.addDay(calendarTemp,-1);
-            cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));
+            cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));*/
         }
     }
 
