@@ -59,6 +59,7 @@
     <option value="19">花旗银行</option>
     <option value="20">中国邮政储蓄银行</option>
     <option value="21">京东</option>
+    <option value="22">北京银行</option>
 </select><br/>
     还款类型 <select name="payType">
                 <option value="0">房贷</option>
