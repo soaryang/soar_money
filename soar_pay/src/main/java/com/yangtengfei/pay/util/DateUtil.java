@@ -7,9 +7,11 @@ public class DateUtil {
 
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd hh:mm:ss";
 
+    public static final String YYYY_MM_DD_HH_MM_SS_2 = "yyyy-MM-dd-hh-mm-s";
+
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
 
-    public static String calendarToString(Calendar calendar,String format) {
+    public static String calendarToString(Calendar calendar, String format) {
         if (calendar == null) {
             return null;
         }
