@@ -23,7 +23,11 @@ public enum BankTypeEnum {
     HUAQI("花旗银行",19),
     YOUZHENGCHUXUYINHANG("中国邮政储蓄银行",20),
     JINGDONG("京东",21),
-    BEIJINGBANK("北京银行",22);
+    BEIJINGBANK("北京银行",22),
+    NANJINGBANK("南京银行",23),
+    ZHONGXINBANK("中信银行",24),
+    GUNANGDABANK("光大银行",25),
+    SHENGJINGBANK("盛京银行",26);
     // 成员变量
     private String name;
     private int index;
