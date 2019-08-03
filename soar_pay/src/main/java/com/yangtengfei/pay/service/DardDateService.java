@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.xml.ws.Action;
 import java.util.ArrayList;
@@ -24,166 +25,142 @@ public class DardDateService {
     @Autowired
     private CardService cardService;
 
-    public void setPayDay(Calendar calendar, Card card, CardView cardView, int day) {
-        if (card.getIsfixDate() == 0) {
-            isFixDate(calendar, card, cardView, day);
-        } else {
-            isNotFixDate(card, cardView, calendar, cardView.getPayDate());
-        }
-    }
-
-    private void isFixDate(Calendar calendar, Card card, CardView cardView, int day) {
-        int subDay = 0;
-        //log.info("card:{}",JSON.toJSONString(card));
-        //还款日
-        if (card.getPayDate() <= day) {
-            //当前日期
-            Calendar calendarTemp = Calendar.getInstance();
-            CalendarUtil.addMonth(calendarTemp, 1);
-            CalendarUtil.setSpecialDay(calendarTemp, card.getPayDate());
-            cardView.setPayDay(DateUtil.calendarToString(calendarTemp, DateUtil.YYYY_MM_DD));
-
-            System.out.print((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24) - 1);
-            subDay = (int) ((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24) - 1);
-            calendarTemp.add(Calendar.DATE, -1);
-            cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp, DateUtil.YYYY_MM_DD));
-        } else {
-            subDay = card.getPayDate() - day;
-            Calendar calendarTemp = Calendar.getInstance();
-            CalendarUtil.setSpecialDay(calendarTemp, card.getPayDate());
-            cardView.setPayDay(DateUtil.calendarToString(calendarTemp, DateUtil.YYYY_MM_DD));
-
-            CalendarUtil.addDay(calendarTemp, -1);
-            cardView.setPutMonyDay(DateUtil.calendarToString(calendarTemp, DateUtil.YYYY_MM_DD));
-        }
-        //距离还款时间
-        cardView.setSubPayDay(subDay - 1);
-        log.info("cardView:{}", JSON.toJSONString(cardView));
-    }
-
-    private void isNotFixDate(Card card, CardView cardView, Calendar calendar,int payDate) {
-        Calendar calendarTemp = Calendar.getInstance();
-        //设置账单日
-        CalendarUtil.setSpecialDay(calendarTemp, card.getAccountDate());
-        //获取当前账单日
-        int accountDay = calendarTemp.get(Calendar.DAY_OF_MONTH);
-        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
-
-        if (card.getCardName().contains("浦东")) {
-            log.info("accountDay:{}", accountDay);
-        }
-        //设置还款日
-        if(payDate!=0){
-            CalendarUtil.addDay(calendarTemp, payDate);
-        }else{
-            CalendarUtil.addDay(calendarTemp, 20);
-        }
-
-
-        int subDay = 0;
-        //if(calendarTemp.getTime().after(calendar.getTime())){
-        if (accountDay > currentDay) {
-            log.info("账单日在当前时间之后");
-            //获取上个账单日。来计算本月的还款日
-            Calendar currentCalendar = Calendar.getInstance();
-
-            CalendarUtil.addMonth(currentCalendar, -1);
-            CalendarUtil.setSpecialDay(currentCalendar, card.getAccountDate());
-
-            CalendarUtil.addDay(currentCalendar, 20);
-            cardView.setPayDay(DateUtil.calendarToString(currentCalendar, DateUtil.YYYY_MM_DD));
-            //存钱日期
-            CalendarUtil.addDay(currentCalendar, -1);
-            cardView.setPutMonyDay(DateUtil.calendarToString(currentCalendar, DateUtil.YYYY_MM_DD));
-
-            subDay = (int) ((currentCalendar.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24));
-            cardView.setSubPayDay(subDay);
-        } else {
-            log.info("账单日在当前时间之前");
-            Calendar calendarAccount = Calendar.getInstance();
-            //判断账单日+ 指定的20天是否大于最后一天
-            CalendarUtil.setSpecialDay(calendarAccount, card.getAccountDate());
-            CalendarUtil.addDay(calendarAccount, 20);
-
-            //还款日期
-            cardView.setPayDay(DateUtil.calendarToString(calendarTemp, DateUtil.YYYY_MM_DD));
-
-            //存钱日期
-            CalendarUtil.addDay(calendarAccount, -1);
-            cardView.setPutMonyDay(DateUtil.calendarToString(calendarAccount, DateUtil.YYYY_MM_DD));
-
-            subDay = (int) ((calendarAccount.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24) - 1);
-            cardView.setSubPayDay(subDay);
-
-
-
-
-
-            /*CalendarUtil.addMonth(calendarAccount,1);
-            CalendarUtil.setSpecialDay(calendarAccount,card.getAccountDate());
-            CalendarUtil.addDay(calendarAccount,20);
-            cardView.setPutMonyDay(DateUtil.calendarToString(calendarAccount,DateUtil.YYYY_MM_DD));
-            subDay =(int)((calendarAccount.getTimeInMillis() - calendar.getTimeInMillis())/(1000*60*60*24)-1);
-            cardView.setSubPayDay(subDay-1);
-            log.info("cardName:{},before:{}",card.getCardName(),calendarTemp.getTime());
-            CalendarUtil.addDay(calendarTemp,-1);
-            cardView.setPayDay(DateUtil.calendarToString(calendarTemp,DateUtil.YYYY_MM_DD));*/
-        }
-    }
-
     public List<CardView> findCardViewList() {
-
         List<CardView> cardViewList = new ArrayList<>();
+        //获取卡的信息
         List<Card> cards = cardService.findAll();
+        //当前日期
         Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        if (cards != null && cards.size() > 0) {
-            for (Card card : cards) {
+        if (!CollectionUtils.isEmpty(cards)) {
+            cards.stream().forEach(card -> {
                 CardView cardView = new CardView();
-                BeanUtils.copyProperties(card, cardView);
+                BeanUtils.copyProperties(card,cardView);
+                //设置银行类型
                 cardView.setBank(BankTypeEnum.getName(card.getBankType()));
+                //设置还款类型
                 cardView.setPayType(PayTypeEnum.getName(card.getPayType()));
-                int subDay = 0;
-                setPayDay(calendar, card, cardView, day);
-                //是否紧急
-                subDay = cardView.getSubPayDay();
-                //是否能取现
-                if (card.getPayType() == PayTypeEnum.CREDIT_CARD.getIndex() || card.getPayType() == PayTypeEnum.JINGDONGBAITIAO.getIndex()) {
-                    int subAccountDay = 0;
-                    if (card.getAccountDate() < day) {
-                        Calendar calendarTemp = Calendar.getInstance();
-                        CalendarUtil.addMonth(calendarTemp, 1);
-                        CalendarUtil.setSpecialDay(calendarTemp, card.getAccountDate());
-                        System.out.print((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24) - 1);
-                        subAccountDay = (int) ((calendarTemp.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24) - 1);
-
-                        cardView.setAccountDay(DateUtil.calendarToString(calendarTemp, DateUtil.YYYY_MM_DD));
-                    } else {
-                        subAccountDay = card.getAccountDate() - day;
-                        Calendar calendarTemp = Calendar.getInstance();
-                        CalendarUtil.setSpecialDay(calendarTemp, card.getAccountDate());
-                        cardView.setAccountDay(DateUtil.calendarToString(calendarTemp, DateUtil.YYYY_MM_DD));
-                    }
-
-                    if (card.getPayType() == PayTypeEnum.CREDIT_CARD.getIndex()) {
-                        if (subAccountDay > 20) {
-                            cardView.setIsgetMoney(true);
-                        }
-                    }
-                    cardView.setSubAccountDay(subAccountDay);
+                //是否是固定还款日
+                int isFixDate = card.getIsfixDate();
+                //还款日
+                if(isFixDate == 0){
+                    fixDateHandler(cardView);
+                }else{
+                    notFixDateHandler(cardView);
                 }
 
-                if (subDay <= 3 & subDay >= 0) {
+                //是否能出钱
+                //距离下个账单日的时间大于20天就可以出钱
+                int subNexAccountDay = cardView.getSubNexAccountDay();
+                if(subNexAccountDay>20  && "信用卡".equals(cardView.getPayType())){
+                    cardView.setIsgetMoney(true);
+                }
+
+                int subPayDay =  cardView.getSubPayDay();
+                if (subPayDay <= 3 & subPayDay >= 0) {
                     cardView.setIsemergent(true);
-                    //paycardViewList.add(cardView);
-                } else {
-                    //notPaycardViewList.add(cardView);
                 }
                 cardViewList.add(cardView);
-            }
-            //cardViewList.addAll(paycardViewList);
-            //cardViewList.addAll(notPaycardViewList);
+            });
         }
         return cardViewList;
+    }
+    private void fixDateHandler(CardView cardView){
+        Calendar calendar = Calendar.getInstance();
+        int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        //账单日期accountDate
+        int accountDate = cardView.getAccountDate();
+        Calendar calendarAccountDate = Calendar.getInstance();
+        CalendarUtil.setSpecialDay(calendarAccountDate, accountDate);
+        cardView.setAccountDateStr(DateUtil.calendarToString(calendarAccountDate, DateUtil.YYYY_MM_DD));
+
+        //还款日期 payDay
+        //CalendarUtil.setSpecialDay(calendar, card.getAccountDate());
+        int payDate = cardView.getPayDate();
+        Calendar calendarPayDate = Calendar.getInstance();
+        CalendarUtil.setSpecialDay(calendarPayDate, payDate);
+        cardView.setPayDateStr(DateUtil.calendarToString(calendarPayDate, DateUtil.YYYY_MM_DD));
+
+        //存钱日期 putMonyDay
+        //存钱日期再还款前一天
+        CalendarUtil.addDay(calendarPayDate, -1);
+        Calendar calendarPutDate = calendarPayDate;
+        cardView.setPutMonyDayStr(DateUtil.calendarToString(calendarPutDate, DateUtil.YYYY_MM_DD));
+
+        //距离还款日期 subPayDay
+        int subPayDay = subPayDay(calendarPutDate);
+        cardView.setSubPayDay(subPayDay);
+
+        //下个账单日
+        Calendar nextAccount = Calendar.getInstance();
+        if(accountDate > currentDay){
+            CalendarUtil.setSpecialDay(nextAccount, accountDate);
+        }else{
+            CalendarUtil.addMonth(nextAccount, 1);
+            CalendarUtil.setSpecialDay(nextAccount, accountDate);
+        }
+        cardView.setNextAccountDateStr(DateUtil.calendarToString(nextAccount, DateUtil.YYYY_MM_DD));
+
+        //距离下个账单日的时间
+        int subNextAccountDay = subNextAccountDay(nextAccount);
+        cardView.setSubNexAccountDay(subNextAccountDay);
+
+    }
+    private void notFixDateHandler(CardView cardView){
+        int accountDate = cardView.getAccountDate();
+        Calendar calendarAccountDate = Calendar.getInstance();
+        //当前所在天数
+        int currentDay = calendarAccountDate.get(Calendar.DAY_OF_MONTH);
+        CalendarUtil.setSpecialDay(calendarAccountDate, accountDate);
+        cardView.setAccountDateStr(DateUtil.calendarToString(calendarAccountDate, DateUtil.YYYY_MM_DD));
+
+        //还款日期 payDay
+        int payDate = cardView.getPayDate();
+        if(accountDate > currentDay){
+            CalendarUtil.addMonth(calendarAccountDate, -1);
+        }
+        CalendarUtil.addDay(calendarAccountDate, payDate);
+        Calendar calendarPayDate = calendarAccountDate;
+        cardView.setPayDateStr(DateUtil.calendarToString(calendarPayDate, DateUtil.YYYY_MM_DD));
+
+
+
+
+        //存钱日期 putMonyDay
+        //存钱日期再还款前一天
+        CalendarUtil.addDay(calendarPayDate, -1);
+        Calendar calendarPutDate = calendarPayDate;
+        cardView.setPutMonyDayStr(DateUtil.calendarToString(calendarPutDate, DateUtil.YYYY_MM_DD));
+
+        //距离还款日期 subPayDay
+        int subPayDay = subPayDay(calendarPutDate);
+        cardView.setSubPayDay(subPayDay);
+
+        //下个账单日
+        Calendar nextAccount = Calendar.getInstance();
+        if(accountDate > currentDay){
+            CalendarUtil.setSpecialDay(nextAccount, accountDate);
+        }else{
+            CalendarUtil.addMonth(nextAccount, 1);
+            CalendarUtil.setSpecialDay(nextAccount, accountDate);
+        }
+        cardView.setNextAccountDateStr(DateUtil.calendarToString(nextAccount, DateUtil.YYYY_MM_DD));
+
+        //距离下个账单日的时间
+        int subNextAccountDay = subNextAccountDay(nextAccount);
+        cardView.setSubNexAccountDay(subNextAccountDay);
+    }
+
+
+    private int subPayDay(Calendar calendarPutDate){
+        Calendar calendar = Calendar.getInstance();
+        int subAccountDay = (int) ((calendarPutDate.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24));
+        return subAccountDay;
+    }
+
+    private int subNextAccountDay(Calendar nextAccount){
+        Calendar calendar = Calendar.getInstance();
+        int subAccountDay = (int) ((nextAccount.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24));
+        return subAccountDay;
     }
 }

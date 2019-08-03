@@ -27,6 +27,7 @@ public class Card {
     @Field
     private Integer bankType = 0;
 
+    //固定还款日 0是 1否
     @Field
     private Integer isfixDate = 0;
 
@@ -39,6 +40,7 @@ public class Card {
     @Field
     private Integer payDate = 0;
 
+    //账单日
     @Field
     private Integer accountDate = 0;
 

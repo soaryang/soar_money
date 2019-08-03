@@ -56,7 +56,6 @@ public class CardController {
     }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    @IpLimit(ip="127.0.0.1")
     public ModelAndView update(@PathVariable String id){
         ModelAndView view = new ModelAndView("update");
         Card card = cardService.findCardById(id);
