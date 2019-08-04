@@ -60,6 +60,8 @@ public class DardDateService {
                     cardView.setIsemergent(true);
                 }
                 cardViewList.add(cardView);
+
+                cardViewList.sort((o1, o2)->o1.getAccountDate().compareTo(o2.getAccountDate()));
             });
         }
         return cardViewList;
@@ -104,7 +106,6 @@ public class DardDateService {
         //距离下个账单日的时间
         int subNextAccountDay = subNextAccountDay(nextAccount);
         cardView.setSubNexAccountDay(subNextAccountDay);
-
     }
     private void notFixDateHandler(CardView cardView){
         int accountDate = cardView.getAccountDate();
