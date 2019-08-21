@@ -51,7 +51,7 @@ public class DardDateService {
                 //是否能出钱
                 //距离下个账单日的时间大于20天就可以出钱
                 int subNexAccountDay = cardView.getSubNexAccountDay();
-                if(subNexAccountDay>20  && "信用卡".equals(cardView.getPayType())){
+                if(subNexAccountDay >19  && "信用卡".equals(cardView.getPayType())){
                     cardView.setIsgetMoney(true);
                 }
 
@@ -158,6 +158,7 @@ public class DardDateService {
         int subAccountDay = (int) ((calendarPutDate.getTimeInMillis() - calendar.getTimeInMillis()) / (1000 * 60 * 60 * 24));
         return subAccountDay;
     }
+
 
     private int subNextAccountDay(Calendar nextAccount){
         Calendar calendar = Calendar.getInstance();
