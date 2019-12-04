@@ -129,7 +129,7 @@ public class DardDateService {
 
         //存钱日期 putMonyDay
         //存钱日期再还款前一天
-        CalendarUtil.addDay(calendarPayDate, -1);
+        CalendarUtil.addDay(calendarPayDate, 0);
         Calendar calendarPutDate = calendarPayDate;
         cardView.setPutMonyDayStr(DateUtil.calendarToString(calendarPutDate, DateUtil.YYYY_MM_DD));
 
